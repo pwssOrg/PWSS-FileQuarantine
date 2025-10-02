@@ -1,5 +1,6 @@
 package org.pwss.quarantineManager_aes.util;
 
+import java.io.File;
 import java.lang.reflect.MalformedParametersException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -40,6 +41,10 @@ public final class PathUtil {
             String pathString = path.toString();
             String dottedPath = pathString.replace(FileSystems.getDefault().getSeparator(), ".");
 
+            if ((!File.separator.equals("/")) && (dottedPath.contains(":"))) {
+                dottedPath = ReplaceDriveLetterSuffixColonForWindowsPath(dottedPath);
+            }
+
             if (dottedPath.endsWith(".")) {
                 dottedPath = dottedPath.substring(0, dottedPath.length() - 1);
             }
@@ -71,6 +76,11 @@ public final class PathUtil {
     public static final String convertPathToDottedString(String path) throws GeneralSecurityException {
         try {
             String dottedPath = path.replace(FileSystems.getDefault().getSeparator(), ".");
+
+            if ((!File.separator.equals("/")) && (dottedPath.contains(":"))) {
+                dottedPath = ReplaceDriveLetterSuffixColonForWindowsPath(dottedPath);
+            }
+
             if (dottedPath.endsWith(".")) {
                 dottedPath = dottedPath.substring(0, dottedPath.length() - 1);
             }
@@ -80,4 +90,63 @@ public final class PathUtil {
         }
 
     }
+
+    /**
+     * Replaces the drive letter suffix colon in Windows paths.
+     *
+     * <p>
+     * This method is used internally to replace the colon character found after
+     * the drive letter in Windows file paths with "_drive__". This ensures that
+     * path separators are consistently replaced by dots when converting paths to
+     * dotted strings.
+     * </p>
+     *
+     * @param windowsPath The Windows path string where the colon needs to be
+     *                    replaced.
+     * @return A modified string with the drive letter suffix colon replaced.
+     * @throws MalformedParametersException If there is no single colon or more than
+     *                                      one colon in the input
+     *                                      string.
+     */
+    private static final String ReplaceDriveLetterSuffixColonForWindowsPath(String windowsPath) {
+        if (hasSingleColon(windowsPath)) {
+            return windowsPath.replace(":", "_drive__");
+        } else
+            throw new MalformedParametersException("No colons or > 1 colons");
+    }
+
+    /**
+     * Checks if the input string contains exactly one colon.
+     *
+     * <p>
+     * This method iterates through each character of the string and counts how many
+     * colons are present.
+     * If more than one colon is found, it returns false. Otherwise, it checks if
+     * exactly one colon was
+     * found and returns true or false accordingly.
+     * </p>
+     *
+     * @param input The string to be checked for a single colon.
+     * @return True if the string contains exactly one colon; false otherwise.
+     */
+    private static final boolean hasSingleColon(String input) {
+        if (input == null || input.isEmpty()) {
+            return false;
+        }
+
+        int count = 0;
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == ':') {
+                count++;
+                if (count > 1) {
+                    return false;
+                }
+            }
+
+            return count == 1;
+        }
+
+        return false;
+    }
+
 }
