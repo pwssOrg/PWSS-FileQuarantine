@@ -15,7 +15,7 @@ import java.util.Properties;
  * unquarantining the files
  * by decrypting them using their corresponding keys.
  */
-public final class FileQuarantineManager implements FileQuarantine {
+public final class FileQuarantineManager {
 
     /**
      * Logger instance used for logging messages within this manager.
@@ -61,7 +61,13 @@ public final class FileQuarantineManager implements FileQuarantine {
         this.log = LoggerFactory.getLogger(FileQuarantineManager.class);
     }
 
-    @Override
+    /**
+     * Quarantines a file by encrypting it, generating and storing an AES key,
+     * deleting the original file, and saving metadata.
+     *
+     * @param fileToQuarantine The path of the file to be quarantined.
+     * @throws Exception If an error occurs during encryption or file operations.
+     */
     public final void quarantine(Path fileToQuarantine) throws Exception {
         Files.createDirectories(Paths.get(QUARANTINE_DIR));
         Files.createDirectories(Paths.get(KEY_DIR));
@@ -89,8 +95,17 @@ public final class FileQuarantineManager implements FileQuarantine {
         log.info("File quarantined and encrypted: {}", encryptedFileName);
     }
 
-    @Override
-    public final void unquarantine(String encryptedFileName) throws Exception {
+    /**
+     * Unquarantines a file by decrypting it using the corresponding key,
+     * restoring the original file, deleting the encrypted file and its key,
+     * and removing metadata.
+     *
+     * @param fileName The name of the encrypted (quarantined) file.
+     * @throws Exception If an error occurs during decryption or file operations.
+     */
+    public final void unquarantine(String fileName) throws Exception {
+
+        final String encryptedFileName = fileName + ExtensionConstant.ENC.getExtension();
         Path encryptedPath = Paths.get(QUARANTINE_DIR, encryptedFileName);
 
         if (!Files.exists(encryptedPath)) {
