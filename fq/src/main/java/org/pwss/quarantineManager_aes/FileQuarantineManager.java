@@ -2,6 +2,8 @@ package org.pwss.quarantineManager_aes;
 
 import javax.crypto.SecretKey;
 
+import org.pwss.quarantineManager_aes.dto.MetaDataResult;
+import org.pwss.quarantineManager_aes.util.PathUtil;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
@@ -10,10 +12,10 @@ import java.util.Properties;
 
 /**
  * This class provides functionality for quarantining (isolating) suspicious
- * files by encrypting them,
- * storing their keys separately, and tracking their metadata. It also supports
- * unquarantining the files
- * by decrypting them using their corresponding keys.
+ * files by encrypting them, storing their keys separately, and tracking their
+ * metadata.
+ * It also supports unquarantining the files by decrypting them using their
+ * corresponding keys.
  */
 public final class FileQuarantineManager {
 
@@ -48,15 +50,13 @@ public final class FileQuarantineManager {
      * <p>
      * Note: This class is designed to ensure that only one instance of the nested
      * classes within FileQuarantineManager can exist at any given time. As such, if
-     * this
-     * class is the sole running instance, it guarantees that no other instances of
-     * its
-     * nested classes will be in operation concurrently as the application will
-     * exist :)
+     * this class is the sole running instance, it guarantees that no other
+     * instances of
+     * its nested classes will be in operation concurrently as the application will
+     * exit.
      * </p>
      */
     public FileQuarantineManager() {
-
         aesUtil = new AESManager();
         this.log = LoggerFactory.getLogger(FileQuarantineManager.class);
     }
@@ -66,33 +66,44 @@ public final class FileQuarantineManager {
      * deleting the original file, and saving metadata.
      *
      * @param fileToQuarantine The path of the file to be quarantined.
+     * @return A MetaDataResult object indicating the success or failure of the
+     *         quarantine operation.
      * @throws Exception If an error occurs during encryption or file operations.
      */
-    public final void quarantine(Path fileToQuarantine) throws Exception {
-        Files.createDirectories(Paths.get(QUARANTINE_DIR));
-        Files.createDirectories(Paths.get(KEY_DIR));
+    public final MetaDataResult quarantine(Path fileToQuarantine) throws Exception {
 
-        String originalFileName = fileToQuarantine.getFileName().toString();
+        try {
+            Files.createDirectories(Paths.get(QUARANTINE_DIR));
+            Files.createDirectories(Paths.get(KEY_DIR));
 
-        String encryptedFileName = originalFileName + ExtensionConstant.ENC.getExtension();
-        Path encryptedPath = Paths.get(QUARANTINE_DIR, encryptedFileName);
+            String encryptedFileName = PathUtil.convertPathToDottedString(fileToQuarantine)
+                    + ExtensionConstant.ENC.getExtension();
+            Path encryptedPath = Paths.get(QUARANTINE_DIR, encryptedFileName);
 
-        // Generate and store AES key
-        SecretKey key = aesUtil.generateKey();
-        String keyFileName = aesUtil.generateUniqueKeyName();
-        Path keyPath = Paths.get(KEY_DIR, keyFileName);
-        aesUtil.saveKey(key, keyPath);
+            // Generate and store AES key
+            SecretKey key = aesUtil.generateKey();
+            String keyFileName = aesUtil.generateUniqueKeyName();
+            Path keyPath = Paths.get(KEY_DIR, keyFileName);
+            aesUtil.saveKey(key, keyPath);
 
-        // Encrypt file
-        aesUtil.encryptFile(fileToQuarantine, encryptedPath, key);
+            // Encrypt file
+            aesUtil.encryptFile(fileToQuarantine, encryptedPath, key);
 
-        // Save metadata
-        saveMetadata(encryptedFileName, fileToQuarantine.toAbsolutePath().toString(), keyPath.toString());
+            // Save metadata
+            saveMetadata(encryptedFileName, fileToQuarantine.toAbsolutePath().toString(), keyPath.toString());
 
-        // Delete original file (simulate quarantine)
-        Files.delete(fileToQuarantine);
+            // Delete original file (simulate quarantine)
+            Files.delete(fileToQuarantine);
 
-        log.info("File quarantined and encrypted: {}", encryptedFileName);
+            log.info("File quarantined and encrypted: {}", encryptedFileName);
+
+            return new MetaDataResult(true, encryptedFileName);
+        }
+
+        catch (Exception e) {
+            log.error("General Exception when trying to quarantine a path/file", e);
+            return new MetaDataResult(false, "ERROR");
+        }
     }
 
     /**
@@ -100,17 +111,20 @@ public final class FileQuarantineManager {
      * restoring the original file, deleting the encrypted file and its key,
      * and removing metadata.
      *
-     * @param fileName The name of the encrypted (quarantined) file.
+     * @param absolutePath The original absolute path of the encrypted (quarantined)
+     *                     file separated by dots.
+     * @return A boolean value indicating the success or failure of the unquarantine
+     *         operation.
      * @throws Exception If an error occurs during decryption or file operations.
      */
-    public final void unquarantine(String fileName) throws Exception {
+    public final boolean unquarantine(String absolutePath) throws Exception {
 
-        final String encryptedFileName = fileName + ExtensionConstant.ENC.getExtension();
+        final String encryptedFileName = absolutePath + ExtensionConstant.ENC.getExtension();
         Path encryptedPath = Paths.get(QUARANTINE_DIR, encryptedFileName);
 
         if (!Files.exists(encryptedPath)) {
             log.error("Encrypted file not found.");
-            return;
+            return false;
         }
 
         // Load metadata
@@ -122,7 +136,7 @@ public final class FileQuarantineManager {
 
         if (originalPathStr == null || keyPathStr == null) {
             log.error("Metadata missing for: {}", encryptedFileName);
-            return;
+            return false;
         }
 
         Path originalPath = Paths.get(originalPathStr);
@@ -137,6 +151,7 @@ public final class FileQuarantineManager {
         removeMetadata(encryptedFileName);
 
         log.info("File unquarantined and decrypted to: {}", originalPath);
+        return true;
     }
 
     // ---------- Metadata Handling Methods ----------

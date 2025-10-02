@@ -13,7 +13,7 @@ import java.util.UUID;
  */
 final class AESManager {
 
-     /**
+    /**
      * Holds the instance count. The maximum instances allowed is 1.
      */
     private static int instanceCount = 0;
@@ -38,15 +38,13 @@ final class AESManager {
      */
     private final int KEY_SIZE = 256;
 
-    AESManager(){
-     instanceCount++;
+    AESManager() {
+        instanceCount++;
         if (instanceCount > 1) {
             System.exit(2);
             // It is only allowed to have one instance of this class
-   }
-}
-
-
+        }
+    }
 
     /**
      * Generates a new AES secret key with the specified key size.
@@ -64,7 +62,8 @@ final class AESManager {
      * Encrypts a file using AES encryption with the given secret key.
      *
      * @param input  The path to the input file that will be encrypted.
-     * @param output The path to the output file where the encrypted data will be written.
+     * @param output The path to the output file where the encrypted data will be
+     *               written.
      * @param key    The SecretKey used for encryption.
      * @throws Exception If an error occurs during encryption.
      */
@@ -78,8 +77,8 @@ final class AESManager {
         cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
 
         try (FileOutputStream fileOut = new FileOutputStream(output.toFile());
-             CipherOutputStream cipherOut = new CipherOutputStream(fileOut, cipher)) {
-            fileOut.write(iv);  // Save IV to start of file
+                CipherOutputStream cipherOut = new CipherOutputStream(fileOut, cipher)) {
+            fileOut.write(iv); // Save IV to start of file
             Files.copy(input, cipherOut);
         }
     }
@@ -88,21 +87,23 @@ final class AESManager {
      * Decrypts a file using AES decryption with the given secret key.
      *
      * @param input  The path to the input file that will be decrypted.
-     * @param output The path to the output file where the decrypted data will be written.
+     * @param output The path to the output file where the decrypted data will be
+     *               written.
      * @param key    The SecretKey used for decryption.
      * @throws Exception If an error occurs during decryption.
      */
     final void decryptFile(Path input, Path output, SecretKey key) throws Exception {
         try (FileInputStream fileIn = new FileInputStream(input.toFile())) {
             byte[] iv = new byte[IV_SIZE];
-            if (fileIn.read(iv) != IV_SIZE) throw new IOException("Invalid IV length");
+            if (fileIn.read(iv) != IV_SIZE)
+                throw new IOException("Invalid IV length");
 
             IvParameterSpec ivSpec = new IvParameterSpec(iv);
             Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
 
             try (CipherInputStream cipherIn = new CipherInputStream(fileIn, cipher);
-                 FileOutputStream fileOut = new FileOutputStream(output.toFile())) {
+                    FileOutputStream fileOut = new FileOutputStream(output.toFile())) {
                 byte[] buffer = new byte[4096];
                 int bytesRead;
                 while ((bytesRead = cipherIn.read(buffer)) != -1) {
@@ -115,8 +116,8 @@ final class AESManager {
     /**
      * Saves the given secret key to a specified path.
      *
-     * @param key      The SecretKey that will be saved.
-     * @param keyPath  The Path where the key will be written.
+     * @param key     The SecretKey that will be saved.
+     * @param keyPath The Path where the key will be written.
      * @throws IOException If an error occurs while writing the key file.
      */
     final void saveKey(SecretKey key, Path keyPath) throws IOException {
