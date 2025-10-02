@@ -25,7 +25,7 @@ public class PathUtilTest {
 
         // Given
         String pathString = "C:\\Users\\JohnDoe\\Documents\\ab.txt";
-        final String EXPECTED = "C:.Users.JohnDoe.Documents.ab.txt";
+        final String EXPECTED = "C_drive__.Users.JohnDoe.Documents.ab.txt";
 
         // Then
         final String ACTUAL = PathUtil.convertPathToDottedString(pathString);

@@ -86,7 +86,7 @@ public final class PathUtil {
             }
             return dottedPath;
         } catch (Exception exception) {
-            throw new GeneralSecurityException("Could not transform a Path string into a dotted format");
+            throw new GeneralSecurityException("Could not transform a Path string into a dotted format",exception);
         }
 
     }
@@ -142,11 +142,8 @@ public final class PathUtil {
                     return false;
                 }
             }
-
-            return count == 1;
         }
-
-        return false;
+       return count == 1;
     }
 
 }
