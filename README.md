@@ -12,7 +12,7 @@ PWSS representatives if you're interested.
 <dependency>
   <groupId>lib.pwss</groupId>
   <artifactId>file-quarantine</artifactId>
-  <version>0.9.3</version>
+  <version>1.0</version>
 </dependency>
 ```
 <sub>(PWSS Private Github Package)</sub>
