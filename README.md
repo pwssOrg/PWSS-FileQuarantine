@@ -12,7 +12,7 @@ PWSS representatives if you're interested.
 <dependency>
   <groupId>lib.pwss</groupId>
   <artifactId>file-quarantine</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 <sub>(PWSS Private Github Package)</sub>
@@ -53,4 +53,5 @@ Forum](https://github.com/orgs/pwssOrg/discussions/categories/pwss-filequarantin
 ---
 
 © 2025 pwssOrg. All rights reserved.
+
 
