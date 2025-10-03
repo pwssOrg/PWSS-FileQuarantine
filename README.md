@@ -1,21 +1,45 @@
 # PWSS-FileQuarantine
 
 
-## Example
+## Installation
 
+To use the `file-quarantine` library, you need to include it as a dependency in your project. You can find
+it on the private GitHub package repository of PWSS. A GitHub packages token is required to access it. Contact
+PWSS representatives if you're interested.
+
+### Maven 
+```xml
+<dependency>
+  <groupId>lib.pwss</groupId>
+  <artifactId>file-quarantine</artifactId>
+  <version>0.9.3</version>
+</dependency>
 ```
+<sub>(PWSS Private Github Package)</sub>
+## Usage
+
+Here's a basic example to get you started with using the `file-quarantine` library for quarantining and unquarantining files:
+
+
+```java
+package org.pwss;
+
 import org.pwss.quarantineManager_aes.FileQuarantineManager;
+import org.pwss.quarantineManager_aes.dto.MetaDataResult;
+
 
 import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
-        final Path path = Path.of("C:\\tobias-fischer-PkbZahEG2Ng-unsplash.jpg");
+        final Path path = Path.of("C:\\your\\path\\your_file.txt");
+       
         FileQuarantineManager fileQuarantineManager = new FileQuarantineManager();
-
-        fileQuarantineManager.quarantine(path);
-        fileQuarantineManager.unquarantine("tobias-fischer-PkbZahEG2Ng-unsplash.jpg");
+        MetaDataResult metaDataResult = fileQuarantineManager.quarantine(path);
+        
+        System.out.println(metaDataResult.keyName());
+        
+        fileQuarantineManager.unquarantine(metaDataResult.keyName().split(".enc")[0]);
     }
 }
 
@@ -29,3 +53,4 @@ Forum](https://github.com/orgs/pwssOrg/discussions/categories/pwss-filequarantin
 ---
 
 © 2025 pwssOrg. All rights reserved.
+
