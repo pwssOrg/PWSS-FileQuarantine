@@ -73,31 +73,41 @@ public final class FileQuarantineManager {
     public final MetaDataResult quarantine(Path fileToQuarantine) throws Exception {
 
         try {
-            Files.createDirectories(Paths.get(QUARANTINE_DIR));
-            Files.createDirectories(Paths.get(KEY_DIR));
 
-            String encryptedFileName = PathUtil.convertPathToDottedString(fileToQuarantine)
-                    + ExtensionConstant.ENC.getExtension();
-            Path encryptedPath = Paths.get(QUARANTINE_DIR, encryptedFileName);
+            if (fileToQuarantine != null && Files.exists(fileToQuarantine)) {
 
-            // Generate and store AES key
-            SecretKey key = aesUtil.generateKey();
-            String keyFileName = aesUtil.generateUniqueKeyName();
-            Path keyPath = Paths.get(KEY_DIR, keyFileName);
-            aesUtil.saveKey(key, keyPath);
+                Files.createDirectories(Paths.get(QUARANTINE_DIR));
+                Files.createDirectories(Paths.get(KEY_DIR));
 
-            // Encrypt file
-            aesUtil.encryptFile(fileToQuarantine, encryptedPath, key);
+                String encryptedFileName = PathUtil.convertPathToDottedString(fileToQuarantine)
+                        + ExtensionConstant.ENC.getExtension();
+                Path encryptedPath = Paths.get(QUARANTINE_DIR, encryptedFileName);
 
-            // Save metadata
-            saveMetadata(encryptedFileName, fileToQuarantine.toAbsolutePath().toString(), keyPath.toString());
+                // Generate and store AES key
+                SecretKey key = aesUtil.generateKey();
+                String keyFileName = aesUtil.generateUniqueKeyName();
+                Path keyPath = Paths.get(KEY_DIR, keyFileName);
+                aesUtil.saveKey(key, keyPath);
 
-            // Delete original file (simulate quarantine)
-            Files.delete(fileToQuarantine);
+                // Encrypt file
+                aesUtil.encryptFile(fileToQuarantine, encryptedPath, key);
 
-            log.info("File quarantined and encrypted: {}", encryptedFileName);
+                // Save metadata
+                saveMetadata(encryptedFileName, fileToQuarantine.toAbsolutePath().toString(), keyPath.toString());
 
-            return new MetaDataResult(true, encryptedFileName);
+                // Delete original file (simulate quarantine)
+                Files.delete(fileToQuarantine);
+
+                log.info("File quarantined and encrypted: {}", encryptedFileName);
+
+                return new MetaDataResult(true, encryptedFileName);
+            }
+
+            else {
+                log.error("File does not exist or the input paramater Path has null value");
+                return new MetaDataResult(false, "File does not exist or the input paramater Path has null value");
+            }
+
         }
 
         catch (Exception e) {
@@ -111,20 +121,27 @@ public final class FileQuarantineManager {
      * restoring the original file, deleting the encrypted file and its key,
      * and removing metadata.
      *
-     * @param absolutePath The original absolute path of the encrypted (quarantined)
-     *                     file separated by dots.
-     * @return A boolean value indicating the success or failure of the unquarantine
-     *         operation.
+     * @param keyPath The original absolute path of the encrypted (quarantined)
+     *                file separated by dots with the colon of the drive letter
+     *                substituted into _drive__ (e.g., C:\path\to\file.txt becomes
+     *                C_drive__path.to.file.txt for Windows).
+     * @return A MetaDataResult object indicating whether the unquarantine operation
+     *         was successful or not, along with any relevant metadata.
      * @throws Exception If an error occurs during decryption or file operations.
      */
-    public final boolean unquarantine(String absolutePath) throws Exception {
+    public final MetaDataResult unquarantine(String keyPath) throws Exception {
 
-        final String encryptedFileName = absolutePath + ExtensionConstant.ENC.getExtension();
+        if (keyPath == null) {
+            log.error("keyPath has null value");
+            throw new NullPointerException("Input parameter has null value");
+        }
+
+        final String encryptedFileName = keyPath + ExtensionConstant.ENC.getExtension();
         Path encryptedPath = Paths.get(QUARANTINE_DIR, encryptedFileName);
 
         if (!Files.exists(encryptedPath)) {
             log.error("Encrypted file not found.");
-            return false;
+            return new MetaDataResult(false, keyPath);
         }
 
         // Load metadata
@@ -136,7 +153,7 @@ public final class FileQuarantineManager {
 
         if (originalPathStr == null || keyPathStr == null) {
             log.error("Metadata missing for: {}", encryptedFileName);
-            return false;
+            return new MetaDataResult(false, keyPath);
         }
 
         Path originalPath = Paths.get(originalPathStr);
@@ -151,7 +168,7 @@ public final class FileQuarantineManager {
         removeMetadata(encryptedFileName);
 
         log.info("File unquarantined and decrypted to: {}", originalPath);
-        return true;
+        return new MetaDataResult(true, keyPath);
     }
 
     // ---------- Metadata Handling Methods ----------
