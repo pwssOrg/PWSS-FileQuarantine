@@ -124,7 +124,7 @@ public final class FileQuarantineManager {
      * @param keyPath The original absolute path of the encrypted (quarantined)
      *                file separated by dots with the colon of the drive letter
      *                substituted into _drive__ (e.g., C:\path\to\file.txt becomes
-     *                C_drive__path.to.file.txt for Windows).
+     *                C_drive__.path.to.file.txt for Windows).
      * @return A MetaDataResult object indicating whether the unquarantine operation
      *         was successful or not, along with any relevant metadata.
      * @throws Exception If an error occurs during decryption or file operations.
