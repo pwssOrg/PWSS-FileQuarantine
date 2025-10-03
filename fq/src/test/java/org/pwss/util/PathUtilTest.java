@@ -39,7 +39,7 @@ public class PathUtilTest {
         }
         // Linux System
         else {
-            String temp = pathString.replace("/", "\\");
+            String temp = pathString.replace("\\", "/").replace(":", "_drive__");
 
             // Then
             ACTUAL = PathUtil.convertPathToDottedString(temp);
