@@ -44,7 +44,7 @@ public class Main {
 
 ```
 
-![File Integrity Scanner Image](https://github.com/pwssOrg/PWSS-FileQuarantine/blob/enhance_readme_file_for_project/.github/assets/images/1920x1078.jpg?raw=true)
+![File Integrity Scanner Image](https://github.com/pwssOrg/PWSS-FileQuarantine/blob/master/.github/assets/images/1920x1078.jpg?raw=true)
 
 ### API Documentation
 
@@ -70,6 +70,7 @@ Forum](https://github.com/orgs/pwssOrg/discussions/categories/pwss-filequarantin
 ---
 
 © 2025 pwssOrg. All rights reserved.
+
 
 
 
