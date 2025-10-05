@@ -44,6 +44,20 @@ public class Main {
 
 ```
 
+![File Integrity Scanner Image](https://github.com/pwssOrg/PWSS-FileQuarantine/blob/master/.github/assets/images/1920x1078.jpg?raw=true)
+
+### API Documentation
+
+For detailed information about our classes, methods, and their usage, please visit the Javadoc:
+
+[Link to API Docs](https://github.com/orgs/pwssOrg/projects/9/views/1?pane=issue&itemId=132066412&issue=pwssOrg%7CFile-Integrity-Scanner%7C245)
+
+The Javadocs provide comprehensive documentation for all public APIs in this project, including:
+- Class descriptions
+- Method details with parameters and return types
+- Example usages when available
+
+
 ## Discussion Forum
 
 Please visit our discussion forum for project-related documentation and discussions: [Project Discussion
@@ -56,6 +70,8 @@ Forum](https://github.com/orgs/pwssOrg/discussions/categories/pwss-filequarantin
 ---
 
 © 2025 pwssOrg. All rights reserved.
+
+
 
 
 
