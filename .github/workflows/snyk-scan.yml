@@ -11,7 +11,7 @@ jobs:
   security-file-quarantine:
     uses: pwssOrg/reusable-workflows/.github/workflows/sca_scan_base.yml@main
     with:
-       working-path: ./
+       working-path: fq
        name-of-snyk-step: Check for vulnerabilities in FileQuarantine
     secrets:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
