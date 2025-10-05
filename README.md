@@ -1,6 +1,5 @@
 # PWSS-FileQuarantine
 
-
 ## Installation
 
 To use the `file-quarantine` library, you need to include it as a dependency in your project. You can find
@@ -50,8 +49,13 @@ public class Main {
 Please visit our discussion forum for project-related documentation and discussions: [Project Discussion
 Forum](https://github.com/orgs/pwssOrg/discussions/categories/pwss-filequarantine)
 
+[![Makefile CI](https://github.com/pwssOrg/PWSS-FileQuarantine/actions/workflows/build.yml/badge.svg)](https://github.com/pwssOrg/PWSS-FileQuarantine/actions/workflows/build.yml)
+[![SCA Scan - FileQuarantine](https://github.com/pwssOrg/PWSS-FileQuarantine/actions/workflows/snyk-scan.yml/badge.svg)](https://github.com/pwssOrg/PWSS-FileQuarantine/actions/workflows/snyk-scan.yml)
+
+
 ---
 
 © 2025 pwssOrg. All rights reserved.
+
 
 
