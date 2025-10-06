@@ -50,7 +50,7 @@ public class Main {
 
 For detailed information about our classes, methods, and their usage, please visit the Javadoc:
 
-[Link to API Docs](https://github.com/orgs/pwssOrg/projects/9/views/1?pane=issue&itemId=132066412&issue=pwssOrg%7CFile-Integrity-Scanner%7C245)
+[Link to API Docs](https://pwssorg.github.io/PWSS-FileQuarantine-JavaDocs/)
 
 The Javadocs provide comprehensive documentation for all public APIs in this project, including:
 - Class descriptions
@@ -70,6 +70,7 @@ Forum](https://github.com/orgs/pwssOrg/discussions/categories/pwss-filequarantin
 ---
 
 © 2025 pwssOrg. All rights reserved.
+
 
 
 
