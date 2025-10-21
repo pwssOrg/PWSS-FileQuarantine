@@ -8,6 +8,6 @@ package org.pwss.quarantineManager_aes.dto;
  * where it provides information about the success or failure of such operations along with the
  * relevant encryption key name.</p>
  */
-public record MetaDataResult(boolean succesful,String keyName) { 
+public record MetaDataResult(boolean successful,String keyName) { 
 }
 
