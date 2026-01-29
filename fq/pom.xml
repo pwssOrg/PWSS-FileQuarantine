@@ -6,7 +6,7 @@
 
     <groupId>lib.pwss</groupId>
     <artifactId>file-quarantine</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <description>A library for quarantining and unquarantining files.
 </description>
 
@@ -37,18 +37,18 @@
     </developers>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic/1.5.26 -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.23</version>
+            <version>1.5.26</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api/6.0.2  -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>6.0.1</version>
+            <version>6.0.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
