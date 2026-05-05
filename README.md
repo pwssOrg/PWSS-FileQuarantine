@@ -1,20 +1,15 @@
 # PWSS-FileQuarantine
 
 ## Installation
-
-To use the `file-quarantine` library, you need to include it as a dependency in your project. You can find
-it on the private GitHub package repository of PWSS. A GitHub packages token is required to access it. Contact
-PWSS representatives if you're interested.
-
+To use the `file-quarantine` library, you need to include it as a dependency in your project.
 ### Maven 
 ```xml
 <dependency>
   <groupId>lib.pwss</groupId>
   <artifactId>file-quarantine</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
 </dependency>
 ```
-<sub>(PWSS Private Github Package)</sub>
 ## Usage
 
 Here's a basic example to get you started with using the `file-quarantine` library for quarantining and unquarantining files:
@@ -68,8 +63,6 @@ Forum](https://github.com/orgs/pwssOrg/discussions/categories/pwss-filequarantin
 
 
 ---
-
-© 2025 pwssOrg. All rights reserved.
 
 
 

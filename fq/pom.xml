@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>lib.pwss</groupId>
+    <!-- Maven Central coordinates -->
+    <groupId>io.github.pwssorg</groupId>
     <artifactId>file-quarantine</artifactId>
-    <version>1.0.6</version>
-    <description>A library for quarantining and unquarantining files.
-</description>
+    <version>1.0.7</version>
+
+    <name>file-quarantine</name>
+    <description>A library for quarantining and unquarantining files.</description>
+    <url>https://github.com/pwssOrg/PWSS-FileQuarantine</url>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -16,46 +21,59 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>PWSS-FileQuarantine GitHub Maven Repository</name>
-            <url>https://maven.pkg.github.com/pwssOrg/PWSS-FileQuarantine</url>
-        </repository>
-    </distributionManagement>
+    <!-- License -->
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
+    <!-- Developers -->
     <developers>
         <developer>
             <name>Peter Westin</name>
-            <id>Peter</id>
-            <email>snow_900@outlook.com</email>
-            <roles>
-                <role>Coa supporter</role>
-            </roles>
-            <timezone>Central European Time</timezone>
+            <email>peter.westin@pwss.dev</email>
+            <timezone>Europe/Stockholm</timezone>
+        </developer>
+        <developer>
+            <name>Stefan Smudja</name>
+            <email>stefan.smudja@pwss.dev</email>
+            <timezone>Europe/Stockholm</timezone>
         </developer>
     </developers>
 
+    <!-- SCM -->
+    <scm>
+        <connection>scm:git:https://github.com/pwssOrg/PWSS-FileQuarantine.git</connection>
+        <developerConnection>scm:git:ssh://github.com/pwssOrg/PWSS-FileQuarantine.git</developerConnection>
+        <url>https://github.com/pwssOrg/PWSS-FileQuarantine</url>
+    </scm>
+
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic/1.5.26 -->
+
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic/1.5.32 -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.26</version>
+            <version>1.5.32</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api/6.0.2  -->
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api/6.0.3 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>6.0.2</version>
+            <version>6.0.3</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
 
+    </dependencies>
 
     <build>
         <plugins>
+
+            <!-- Javadoc -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -69,6 +87,57 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Sources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.4.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- GPG signing -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.8</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Maven Deploy -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>4.0.0-beta-2</version>
+            </plugin>
+
+            <!-- Maven Central Portal -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.10.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
+
 </project>

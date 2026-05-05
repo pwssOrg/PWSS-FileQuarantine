@@ -21,4 +21,4 @@ jobs:
         cache: 'maven'
 
     - name: Install dependencies
-      run: make build
+      run: make github_build
