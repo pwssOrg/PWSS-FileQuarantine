@@ -5,7 +5,7 @@ To use the `file-quarantine` library, you need to include it as a dependency in 
 ### Maven 
 ```xml
 <dependency>
-  <groupId>lib.pwss</groupId>
+  <groupId>io.github.pwssorg</groupId>
   <artifactId>file-quarantine</artifactId>
   <version>1.0.7</version>
 </dependency>
