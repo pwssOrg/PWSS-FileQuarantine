@@ -10,6 +10,7 @@ To use the `file-quarantine` library, you need to include it as a dependency in 
   <version>1.0.7</version>
 </dependency>
 ```
+[![MvnRepository](https://badges.mvnrepository.com/badge/io.github.pwssorg/file-quarantine/badge.svg?label=MvnRepository)](https://mvnrepository.com/artifact/io.github.pwssorg/file-quarantine)
 ## Usage
 
 Here's a basic example to get you started with using the `file-quarantine` library for quarantining and unquarantining files:
