@@ -7,7 +7,7 @@ To use the `file-quarantine` library, you need to include it as a dependency in 
 <dependency>
   <groupId>io.github.pwssorg</groupId>
   <artifactId>file-quarantine</artifactId>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
 </dependency>
 ```
 [![MvnRepository](https://badges.mvnrepository.com/badge/io.github.pwssorg/file-quarantine/badge.svg?label=MvnRepository)](https://mvnrepository.com/artifact/io.github.pwssorg/file-quarantine)
