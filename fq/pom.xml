@@ -9,7 +9,7 @@
     <!-- Maven Central coordinates -->
     <groupId>io.github.pwssorg</groupId>
     <artifactId>file-quarantine</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
 
     <name>file-quarantine</name>
     <description>A library for quarantining and unquarantining files.</description>
