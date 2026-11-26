@@ -9,7 +9,7 @@ on:
  
 jobs:
   security-file-quarantine:
-    uses: pwssOrg/reusable-workflows/.github/workflows/sca_scan_base.yml@main
+    uses: pwssOrg/reusable-workflows/.github/workflows/sca_scan_base.yml@73d132ba5add83f64a228923320dcf1db99b271c
     with:
        working-path: fq
        name-of-snyk-step: Check for vulnerabilities in FileQuarantine
